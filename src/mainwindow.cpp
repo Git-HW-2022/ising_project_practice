@@ -10,11 +10,11 @@
 #include "ising_model.h"
 
 //constructor - initialization
-MainWindow::MainWindow(int l_size, QWidget *parent) :
-	QMainWindow(parent), alg(0), //call constructor of base class
-	p(0.5), l_size(l_size), l(new square_lattice(l_size)), ui(new Ui::MainWindow) //initialize "ui" field by pointer to newly created object
+mainWindow::mainWindow(int l_size, QWidget *parent) :
+        QMainWindow(parent), alg(0), //call constructor of base class
+	p(0.5), l_size(l_size), l(new squareLattice(l_size)), ui(new Ui::MainWindow) //initialize "ui" field by pointer to newly created object
 {
-    l->fill_random();
+    l->fillRandom();
     ui->setupUi(this);
 
     //create dynamic widget
@@ -42,7 +42,7 @@ MainWindow::MainWindow(int l_size, QWidget *parent) :
 
     // Thread creation
     QThread* thread = new QThread;
-    Worker* worker = new Worker(&alg, &Thread_status, p, l);
+    worker* worker = new worker(&alg, &Thread_status, p, l);
 
     // We transfer the ownership rights of the workerclass to the QThread class
     worker->moveToThread(thread);
@@ -52,7 +52,7 @@ MainWindow::MainWindow(int l_size, QWidget *parent) :
     connect(thread, SIGNAL(started()), worker, SLOT(process()));
 
     // Communication of the main Gui thread with the secondary thread
-	connect(worker, SIGNAL(SendStep(int)), this, SLOT(RecieveStep(int)));
+	connect(worker, SIGNAL(SendStep(int)), this, SLOT(recieveStep(int)));
 
     // Signals that are sent to the stream
     // Signal processing of buttons and input fields
@@ -75,10 +75,10 @@ MainWindow::MainWindow(int l_size, QWidget *parent) :
 }
 
 //destructor - free resources
-MainWindow::~MainWindow()
+mainWindow::~mainWindow()
 {
     SendDeleteThread();
-	//qDebug() << "destruction MainWindow";
+	//qDebug() << "destruction mainWindow";
     delete lb1;
     delete lb2;
     delete paintWidget;
@@ -95,14 +95,14 @@ MainWindow::~MainWindow()
 	*/
 }
 
-void MainWindow::RecieveStep(int number)
+void mainWindow::recieveStep(int number)
 {
     lb2->setText(QString::number(number));
 	draw_picture();
 	repaint();
 }
 
-void MainWindow::draw_picture()
+void mainWindow::draw_picture()
 {
     if (l != nullptr)
     {
@@ -126,7 +126,7 @@ void MainWindow::draw_picture()
     }
 }
 
-void MainWindow::Change_algo_label()
+void mainWindow::Change_algo_label()
 {
 	if (alg == 0)
         lb3->setText("Heat bath algorithm");
@@ -135,7 +135,7 @@ void MainWindow::Change_algo_label()
 }
 
 //called when form and widget is resized, repaints widget
-void MainWindow::paint_resized(QSize old_size, QSize new_size)
+void mainWindow::paint_resized(QSize old_size, QSize new_size)
 {
 	if (old_size != new_size)
 		draw_picture();

@@ -3,12 +3,12 @@
 
 #include <QWidget>
 
-class PaintWidget : public QWidget
+class paintWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit PaintWidget(QWidget *parent = 0);
-    ~PaintWidget();
+    explicit paintWidget(QWidget *parent = 0);
+    ~paintWidget();
     QImage *image; //internal cache picture in memory
 
 //outgoing events that this object emits

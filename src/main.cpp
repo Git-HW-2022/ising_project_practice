@@ -80,7 +80,7 @@ int main(int argc, char *argv[]) {
 			return 0;
 		}
 		//std::cout << "plot making" << std::endl;
-		return calc_plot(argv[2], argv[3], lsize, algo - 1, steps, averaging);
+		return calcPlot(argv[2], argv[3], lsize, algo - 1, steps, averaging);
 	}
 
 	//for opening window with simulation
@@ -98,7 +98,7 @@ int main(int argc, char *argv[]) {
 		std::cout << "simulation with " << lsize << "x" << lsize << " lattice" << std::endl;
 	}
 	QApplication a(argc, argv);
-	MainWindow w(lsize);
+	mainWindow w(lsize);
 	w.show();
 	return a.exec();
 }
