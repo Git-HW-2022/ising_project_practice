@@ -1,0 +1,5 @@
+# ninja log v5
+0	222	1670523708406695020	CMakeFiles/ising_project_practice.dir/src/debug.cpp.o	97c9deba71f08c90
+1	245	1670523708430695169	CMakeFiles/ising_project_practice.dir/src/lattice.cpp.o	91812de9ea6359b
+0	368	1670523708554695944	CMakeFiles/ising_project_practice.dir/src/funcs.cpp.o	dd901024b7df6957
+1	398	1670523708582696119	CMakeFiles/ising_project_practice.dir/src/ising_model.cpp.o	434f80484b93facb
