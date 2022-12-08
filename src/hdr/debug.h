@@ -4,9 +4,9 @@
 #include <vector>
 
 template <typename T>
-void Dshow (const char *s, const std::vector <T> &v);
+void dshow (const char *s, const std::vector <T> &v);
 
 template <typename T>
-void Dshow (const char *s, T *arr, int size);
+void dshow (const char *s, T *arr, int size);
 
 #endif // DEBUG_H

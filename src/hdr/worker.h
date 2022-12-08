@@ -7,16 +7,16 @@
 #include <QPainter>
 
 namespace Ui {
-class MainWindow;
+class mainWindow;
 }
 
-class Worker : public QObject
+class worker : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit Worker(int* alg, bool *Status, parameters p, lattice *lptr = nullptr, QObject *parent = 0);
-    ~Worker();
+    explicit worker(int* alg, bool *Status, parameters p, lattice *lptr = nullptr, QObject *parent = 0);
+    ~worker();
 
     int* alg;
     bool *Thread_status;
@@ -24,21 +24,21 @@ public:
     bool Run;
     int step;
     lattice *l;
-    MonteCarlo *model;
+    monteCarlo *model;
 
 signals:
     void finished();
 
-	void SendStep(int);
+	void sendStep(int);
 
 public slots:
     void process();
 
-    void RecieveDeleteThread();
-	void RecieveChangeAlgo();
-    void RecievePause();
-    void RecieveRun();
-    void RecieveNewBeta(double new_beta);
+    void recieveDeleteThread();
+	void recieveChangeAlgo();
+    void recievePause();
+    void recieveRun();
+    void recieveNewBeta(double new_beta);
 };
 
 #endif // WORKER_H

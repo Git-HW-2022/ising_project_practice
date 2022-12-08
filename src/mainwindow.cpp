@@ -1,7 +1,7 @@
 #include "hdr/mainwindow.h"
 #include "hdr/ising_model.h"
 #include "hdr/worker.h"
-#include "ui_mainwindow.h"
+
 #include <QPainter>
 #include <QWidget>
 #include <QDebug>
@@ -10,15 +10,15 @@
 #include <QThread>
 
 //constructor - initialization
-MainWindow::MainWindow(int l_size, QWidget *parent) :
+mainWindow::mainWindow(int l_size, QWidget *parent) :
 	QMainWindow(parent), alg(0), //call constructor of base class
-	p(0.5), l_size(l_size), l(new square_lattice(l_size)), ui(new Ui::MainWindow) //initialize "ui" field by pointer to newly created object
+	p(0.5), l_size(l_size), l(new squareLattice(l_size)), ui(new Ui::mainWindow) //initialize "ui" field by pointer to newly created object
 {
-    l->fill_random();
+    l->fillRandom();
     ui->setupUi(this);
 
     //create dynamic widget
-    paintWidget = new PaintWidget(this);
+    paintWidget = new paintWidget(this);
     //setup size, position and other attributes using layout
     //try to put similar widget on form and see build-drawing-Desktop_Qt_5_3_MinGW_32bit-Debug/ui_mainwindow.h
     QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -42,7 +42,7 @@ MainWindow::MainWindow(int l_size, QWidget *parent) :
 
     // Thread creation
     QThread* thread = new QThread;
-    Worker* worker = new Worker(&alg, &Thread_status, p, l);
+    worker* worker = new Worker(&alg, &Thread_status, p, l);
 
     // We transfer the ownership rights of the workerclass to the QThread class
     worker->moveToThread(thread);
@@ -75,9 +75,9 @@ MainWindow::MainWindow(int l_size, QWidget *parent) :
 }
 
 //destructor - free resources
-MainWindow::~MainWindow()
+mainWindow::~mainWindow()
 {
-    send_delete_thread();
+    sendDeleteThread();
 	//qDebug() << "destruction MainWindow";
     delete lb1;
     delete lb2;
@@ -95,14 +95,14 @@ MainWindow::~MainWindow()
 	*/
 }
 
-void MainWindow::recieve_step(int number)
+void mainWindow::recieveStep(int number)
 {
     lb2->setText(QString::number(number));
-	draw_picture();
+	drawPicture();
 	repaint();
 }
 
-void MainWindow::draw_picture()
+void MainWindow::drawPicture()
 {
     if (l != nullptr)
     {
@@ -126,7 +126,7 @@ void MainWindow::draw_picture()
     }
 }
 
-void MainWindow::change_algo_label()
+void mainWindow::changeAlgoLabel()
 {
 	if (alg == 0)
         lb3->setText("Heat bath algorithm");
@@ -135,8 +135,8 @@ void MainWindow::change_algo_label()
 }
 
 //called when form and widget is resized, repaints widget
-void MainWindow::canvas_resized(QSize old_size, QSize new_size)
+void mainWindow::canvasResized(QSize old_size, QSize new_size)
 {
 	if (old_size != new_size)
-		draw_picture();
+		drawPicture();
 }

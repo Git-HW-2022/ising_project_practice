@@ -98,7 +98,7 @@ int main(int argc, char *argv[]) {
 		std::cout << "simulation with " << lsize << "x" << lsize << " lattice" << std::endl;
 	}
 	QApplication a(argc, argv);
-	MainWindow w(lsize);
+	mainWindow w(lsize);
 	w.show();
 	return a.exec();
 }
