@@ -6,11 +6,11 @@
 #include <ctime>
 #include <iostream>
 
-bool vcontains(const vector <int> &v, int el) { //checks if vector contains element
+bool vContains(const vector <int> &v, int el) { //checks if vector contains element
     return find(v.begin(), v.end(), el) != v.end();
 }
 
-bool vdel(vector <int> &v, int el) { //deletes element from vector. returns false if not found
+bool vDel(vector <int> &v, int el) { //deletes element from vector. returns false if not found
     auto del = find(v.begin(), v.end(), el);
     if (del != v.end()) {
         v.erase(del);
@@ -19,18 +19,28 @@ bool vdel(vector <int> &v, int el) { //deletes element from vector. returns fals
     return false;
 }
 
-void vlinfill(vector <double> &v, const double start, const double end, const int points) {
+void vLinfill(vector <double> &v, const double start, const double end, const int points) {
 	for (int i = 0; i < points; i++)
 		v.push_back(start + i * (end - start) / (points - 1));
 }
 
-int big_rand() { //30-bit random number
+int bigRand() { //30-bit random number
+    int r = rand() & 0x1FFF;
+    r = (r << 13) | (rand() & 0x1FFF);
+    return r;
+}
+
+int big30Bit() { //30-bit random number
     int r = rand() & 0x7FFF;
     r = (r << 15) | (rand() & 0x7FFF);
     return r;
 }
 
-int calc_plot(const char* f_input, const char* f_output, int lsize, int algo, int steps, int averaging) {
+int randInRange(int x, int y) {
+    return x + bigRand % (y - x + 1);
+}
+
+int calcPlot(const char* f_input, const char* f_output, int lsize, int algo, int steps, int averaging) {
 	ifstream input(f_input);
     if (input) {
 		ofstream output(f_output);

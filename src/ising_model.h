@@ -11,7 +11,7 @@
 
 using namespace std;
 
-class parameters {
+class Parameters {
 protected:
     double beta; //beta = 1/kT
     double H; //outer magnetic field
@@ -19,21 +19,21 @@ protected:
     double mu; //magnetic moment
 
 public:
-	parameters(double beta = 0.4, double H = 0, double J = 1, double mu = 1);
-    virtual ~parameters();
+	Parameters(double beta = 0.4, double H = 0, double J = 1, double mu = 1);
+    virtual ~Parameters();
 
-    void set_beta(const double new_beta);
+    void setBeta(const double new_beta);
 };
 
-class Monte_Carlo : public parameters {
+class MonteCarlo : public Parameters {
 public:
-    Monte_Carlo(parameters &p);
+    MonteCarlo(Parameters &p);
 
-	void heat_bath_simulate(lattice *l, int steps = 1) const;
-	void clusters_simulate(lattice *l, int steps = 1) const;
-    int def_spin(int plus_prob) const;
-	void plot_magn_beta(lattice *l, const vector <double> &beta_points, vector <double> &magn_points, const int steps, const int averaging, const int algo);
-    void test(lattice *l);
+	void heatBathSimulate(Lattice *l, int steps = 1) const;
+	void clustersSimulate(Lattice *l, int steps = 1) const;
+    int defSpin(int plus_prob) const;
+	void plotMagnBeta(Lattice *l, const vector <double> &beta_points, vector <double> &magn_points, const int steps, const int averaging, const int algo);
+    void test(Lattice *l);
 };
 
 #endif // ISING_MODEL_H

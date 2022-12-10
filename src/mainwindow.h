@@ -22,14 +22,14 @@ public:
     ~MainWindow();
 
 	int alg; //simulation algorithm: 1 for heat_bath, -1 for clasters
-	bool Thread_status; //true when thread is working, false when terminated
-	parameters p; //parameters of the model
-	int l_size; //square_lattice size - number of rows or columns
-	lattice *l; //lattice type of square_lattice, used in simulation
+	bool threadStatus; //true when thread is working, false when terminated
+	Parameters p; //parameters of the model
+	int lSize; //square_lattice size - number of rows or columns
+	Lattice *l; //lattice type of square_lattice, used in simulation
 
 public slots:
-    void Change_algo_label();
-    void paint_resized(QSize old_size, QSize new_size);
+    void changeAlgoLabel();
+    void paintResized(QSize old_size, QSize new_size);
 	void RecieveStep(int number);
 
 signals:
@@ -44,7 +44,7 @@ private:
     QLabel *lb2;
     QLabel *lb3;
 
-    void draw_picture();
+    void drawPicture();
 };
 
 #endif // MAINWINDOW_H

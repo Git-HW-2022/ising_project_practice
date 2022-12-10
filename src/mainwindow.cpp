@@ -12,9 +12,9 @@
 //constructor - initialization
 MainWindow::MainWindow(int l_size, QWidget *parent) :
 	QMainWindow(parent), alg(0), //call constructor of base class
-	p(0.5), l_size(l_size), l(new square_lattice(l_size)), ui(new Ui::MainWindow) //initialize "ui" field by pointer to newly created object
+	p(0.5), l_size(l_size), l(new SquareLattice(l_size)), ui(new Ui::MainWindow) //initialize "ui" field by pointer to newly created object
 {
-    l->fill_random();
+    l->fillRandom();
     ui->setupUi(this);
 
     //create dynamic widget
@@ -38,7 +38,7 @@ MainWindow::MainWindow(int l_size, QWidget *parent) :
     statusBar()->addWidget(lb3);
 
     // A signal that the image needs to be redrawn when the window is resized
-    connect(paintWidget, SIGNAL(paint_resized(QSize, QSize)), this, SLOT(paint_resized(QSize, QSize)));
+    connect(paintWidget, SIGNAL(paintResized(QSize, QSize)), this, SLOT(paintResized(QSize, QSize)));
 
     // Thread creation
     QThread* thread = new QThread;
@@ -52,13 +52,13 @@ MainWindow::MainWindow(int l_size, QWidget *parent) :
     connect(thread, SIGNAL(started()), worker, SLOT(process()));
 
     // Communication of the main Gui thread with the secondary thread
-	connect(worker, SIGNAL(SendStep(int)), this, SLOT(RecieveStep(int)));
+	connect(worker, SIGNAL(SendStep(int)), this, SLOT(recieveStep(int)));
 
     // Signals that are sent to the stream
     // Signal processing of buttons and input fields
-	connect(this, SIGNAL(SendDeleteThread()), worker, SLOT(RecieveDeleteThread()), Qt::DirectConnection);
-	connect(ui->RunButton, SIGNAL(clicked()), worker, SLOT(RecieveRun()), Qt::DirectConnection);
-	connect(ui->StopButton, SIGNAL(clicked()), worker, SLOT(RecievePause()), Qt::DirectConnection);
+	connect(this, SIGNAL(SendDeleteThread()), worker, SLOT(recieveDeleteThread()), Qt::DirectConnection);
+	connect(ui->RunButton, SIGNAL(clicked()), worker, SLOT(recieveRun()), Qt::DirectConnection);
+	connect(ui->StopButton, SIGNAL(clicked()), worker, SLOT(recievePause()), Qt::DirectConnection);
 	connect(ui->ChangeAlgoButton, SIGNAL(clicked()), worker, SLOT(RecieveChangeAlgo()), Qt::DirectConnection);
 	connect(ui->BetaSpinBox, SIGNAL(valueChanged(double)), worker, SLOT(RecieveNewBeta(double)), Qt::DirectConnection);
 	connect(ui->ChangeAlgoButton, SIGNAL(clicked()), this, SLOT(Change_algo_label()));
@@ -70,7 +70,7 @@ MainWindow::MainWindow(int l_size, QWidget *parent) :
     // Delete the stream after performing the calculations
     connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
 
-    Thread_status = true;
+    threadStatus = true;
     thread->start();
 }
 

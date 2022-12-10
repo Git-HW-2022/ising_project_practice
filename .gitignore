@@ -1,3 +1,4 @@
 *.user
 *.txt
 *.bat
+src/.idea/*
