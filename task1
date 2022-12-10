@@ -1,0 +1,5 @@
+#!/bin/bash
+cat myscript | while read line
+do
+echo "$line" | rev
+done
