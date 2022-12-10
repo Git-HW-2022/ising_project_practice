@@ -10,5 +10,4 @@ bool vcontains(const std::vector <int> &v, int el);
 bool vdel(std::vector <int> &v, int el);
 void vlinfill(std::vector <double> &v, const double start, const double end, const int points);
 int rand30Bit();
-
 #endif // FUNCS_H

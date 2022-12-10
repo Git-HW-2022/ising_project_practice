@@ -1,5 +1,5 @@
-#include "ising_model.h"
-#include "funcs.h"
+#include "hdr/ising_model.h"
+#include "hdr/funcs.h"
 #include <assert.h>
 #include <math.h>
 #include <fstream>
