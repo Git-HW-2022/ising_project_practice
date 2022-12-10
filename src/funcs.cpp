@@ -39,7 +39,7 @@ int randInRange(0, long N) {
 int calcPlot(const char* f_input, const char* f_output, int lsize, int algo, int steps, int averaging) {
 	ifstream input(f_input);
     if (input) {
-		ofstream output(f_output);
+        std::ofstream output(f_output);
 		if (output) {
 			srand((unsigned)time(NULL));
 
