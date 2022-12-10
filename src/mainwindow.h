@@ -13,7 +13,7 @@ namespace Ui {
     class mainWindow;
 }
 
-class mainWindow : public qMainWindow {
+class mainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
@@ -29,14 +29,14 @@ public:
 
 public
     slots:
-            void Change_algo_label();
+            void changeAlgoLabel();
 
-    void paint_resized(QSize old_size, QSize new_size);
+    void paintResized(QSize old_size, QSize new_size);
 
     void recieveStep(int number);
 
     signals:
-            void SendDeleteThread();
+            void sendDeleteThread();
 
 private
     slots:
@@ -48,7 +48,7 @@ private:
     QLabel *lb2;
     QLabel *lb3;
 
-    void draw_picture();
+    void drawPicture();
 };
 
 #endif // MAINWINDOW_H

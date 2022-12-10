@@ -7,9 +7,9 @@ lattice::lattice(unsigned int N, unsigned int nbrs) : N(N), L(new int[N]), nbrs(
 #endif
 	try {
 		if (N <= 0)
-			throw exception("Invalid lattice size: ", N);
+			throw Exception("Invalid lattice size: ", N);
 	}
-	catch (exception &exc) {
+	catch (Exception &exc) {
         std::cout << exc.what() << exc.getData() << std::endl;
 	}
 }

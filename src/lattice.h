@@ -4,12 +4,12 @@
 #include <iostream>
 #include <assert.h>
 
-class exception : public std::exception {
+class Exception : public std::exception {
 private:
     std::string m_error;
     int data;
 public:
-    exception(const std::string &m_error, int data) : m_error(m_error), data(data) {}
+    Exception(const std::string &m_error, int data) : m_error(m_error), data(data) {}
 
     const char *what() const noexcept {
         return m_error.c_str();

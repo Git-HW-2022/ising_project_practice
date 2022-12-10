@@ -69,7 +69,7 @@ int monteCarlo::defSpin(int plus_prob) const {
 void monteCarlo::plotMagnBeta(lattice *l, const vector <double> &beta_points, vector <double> &magn_points, const int steps, const int averaging, const int algo) {
     try {
         if (averaging <= 0)
-			throw exception("averaging must be positive, you entered: ", averaging);
+			throw Exception("averaging must be positive, you entered: ", averaging);
 
 		magn_points.clear();
 		std::cout << "Plot of the function average magnetization from temperature beta, avgMagn(beta)" << std::endl;

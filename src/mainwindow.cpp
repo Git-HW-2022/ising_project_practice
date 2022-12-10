@@ -12,13 +12,13 @@
 //constructor - initialization
 mainWindow::mainWindow(int l_size, QWidget *parent) :
         QMainWindow(parent), alg(0), //call constructor of base class
-	p(0.5), l_size(l_size), l(new squareLattice(l_size)), ui(new Ui::MainWindow) //initialize "ui" field by pointer to newly created object
+	p(0.5), l_size(l_size), l(new squareLattice(l_size)), ui(new Ui::mainWindow) //initialize "ui" field by pointer to newly created object
 {
     l->fillRandom();
     ui->setupUi(this);
 
     //create dynamic widget
-    paintWidget = new PaintWidget(this);
+    paintWidget = new paintWidget(this);
     //setup size, position and other attributes using layout
     //try to put similar widget on form and see build-drawing-Desktop_Qt_5_3_MinGW_32bit-Debug/ui_mainwindow.h
     QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -38,7 +38,7 @@ mainWindow::mainWindow(int l_size, QWidget *parent) :
     statusBar()->addWidget(lb3);
 
     // A signal that the image needs to be redrawn when the window is resized
-    connect(paintWidget, SIGNAL(paint_resized(QSize, QSize)), this, SLOT(paint_resized(QSize, QSize)));
+    connect(paintWidget, SIGNAL(paintResized(QSize, QSize)), this, SLOT(paintResized(QSize, QSize)));
 
     // Thread creation
     QThread* thread = new QThread;
@@ -123,10 +123,11 @@ void mainWindow::draw_picture()
     else
     {
         paintWidget->image->fill(0);
+
     }
 }
 
-void mainWindow::Change_algo_label()
+void mainWindow::changeAlgoLabel()
 {
 	if (alg == 0)
         lb3->setText("Heat bath algorithm");
@@ -135,7 +136,7 @@ void mainWindow::Change_algo_label()
 }
 
 //called when form and widget is resized, repaints widget
-void mainWindow::paint_resized(QSize old_size, QSize new_size)
+void mainWindow::paintResized(QSize old_size, QSize new_size)
 {
 	if (old_size != new_size)
 		draw_picture();
