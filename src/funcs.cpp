@@ -24,13 +24,19 @@ void vlinfill(vector <double> &v, const double start, const double end, const in
 		v.push_back(start + i * (end - start) / (points - 1));
 }
 
-int big_rand() { //30-bit random number
+int rand30Bit() { //30-bit random number
     int r = rand() & 0x7FFF;
     r = (r << 15) | (rand() & 0x7FFF);
     return r;
 }
 
-int calc_plot(const char* f_input, const char* f_output, int lsize, int algo, int steps, int averaging) {
+int randInRange(0, long N) {
+	int r =  rand() & 0xFFF;
+	r = (r << 15) | (rand() & 0x7FFF);
+        return r;	
+}
+
+int calcPlot(const char* f_input, const char* f_output, int lsize, int algo, int steps, int averaging) {
 	ifstream input(f_input);
     if (input) {
 		ofstream output(f_output);

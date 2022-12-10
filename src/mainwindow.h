@@ -28,8 +28,8 @@ public:
 	lattice *l; //lattice type of square_lattice, used in simulation
 
 public slots:
-    void Change_algo_label();
-    void paint_resized(QSize old_size, QSize new_size);
+    void ChangeAlgoLabel();
+    void paintResized(QSize old_size, QSize new_size);
 	void RecieveStep(int number);
 
 signals:
@@ -44,7 +44,7 @@ private:
     QLabel *lb2;
     QLabel *lb3;
 
-    void draw_picture();
+    void drawPicture();
 };
 
 #endif // MAINWINDOW_H
