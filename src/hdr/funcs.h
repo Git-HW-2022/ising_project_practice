@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <vector>
 
-int calcPlot(const char* f_input, const char* f_output, int lsize, int algo, int steps, int averaging = 1);
+int calcPlot(const char* fInput, const char* fOutput, int lsize, int algo, int steps, int averaging = 1);
 
 bool vContains(const std::vector <int> &v, int el);
 bool vDel(std::vector <int> &v, int el);

@@ -3,29 +3,29 @@
 #include <QDebug>
 #include <QPainter>
 
-worker::worker(int* alg, bool *Status, parameters p, lattice *lptr, QObject *parent) :
-    QObject(parent), alg(alg), Thread_status(Status), l(lptr), model(new monteCarlo(p))
+Worker::Worker(int* alg, bool *status, Parameters p, Lattice *lptr, QObject *parent) :
+    QObject(parent), alg(alg), threadStatus(status), l(lptr), model(new MonteCarlo(p))
 
 {
-    Stop = false;
-    Run = false;
+    stop = false;
+    run = false;
     step = 0;
 }
 
-worker::~worker()
+Worker::~Worker()
 {
     //qDebug() << "destruction Thread";
 	delete model;
-    *Thread_status = false;
+    *threadStatus = false;
 }
 
-void worker::process()
+void Worker::process()
 {
-    Stop = false;
-    Run = false;
-    while (!Stop)
+    stop = false;
+    run = false;
+    while (!stop)
     {
-        if(Run && !Stop)
+        if(run && !stop)
         {
 			if (*alg == 0)
 				model->heatBathSimulate(l);
@@ -43,31 +43,31 @@ void worker::process()
 
 void worker::receiveDeleteThread()
 {
-    Stop = true;
+    stop = true;
 	//qDebug() << "receiveDeleteThread = " << Stop;
     emit finished();
 }
 
-void worker::receiveChangeAlgo()
+void Worker::receiveChangeAlgo()
 {
 	*alg = (*alg + 1) % 2;
 	//qDebug() << "Algo changed to " << *alg;
 }
 
-void worker::receiveRun()
+void Worker::receiveRun()
 {
-    Run = true;
+    run = true;
     //qDebug() << "Recieve Run";
 }
 
-void worker::receivePause()
+void Worker::receivePause()
 {
-    Run = false;
+    run = false;
     //qDebug() << "Recieve Pause";
 }
 
-void worker::receiveNewBeta(double new_beta)
+void Worker::receiveNewBeta(double newBeta)
 {
     //qDebug() << "Recieved " << new_beta << " beta";
-    model->setBeta(new_beta);
+    model->setBeta(newBeta);
 }

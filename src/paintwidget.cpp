@@ -3,7 +3,7 @@
 #include <QMouseEvent>
 
 //constructor - initialization
-paintWidget::paintWidget(QWidget *parent) :
+PaintWidget::PaintWidget(QWidget *parent) :
     QWidget(parent) //call constructor of base class
 {
     //create image in size of widget
@@ -12,12 +12,12 @@ paintWidget::paintWidget(QWidget *parent) :
 }
 
 //destructor - free resources
-paintWidget::~paintWidget()
+PaintWidget::~PaintWidget()
 {
     delete image;
 }
 
-void paintWidget::resizeEvent(QResizeEvent *event)
+void PaintWidget::resizeEvent(QResizeEvent *event)
 {
     //recreate cache image with new size
     delete image;
@@ -27,7 +27,7 @@ void paintWidget::resizeEvent(QResizeEvent *event)
     emit canvasResized(event->oldSize(), event->size());
 }
 
-void paintWidget::paintEvent(QPaintEvent *)
+void PaintWidget::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
     painter.fillRect(0, 0, this->width(), this->height(), Qt::white);

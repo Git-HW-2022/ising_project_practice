@@ -40,10 +40,10 @@ int randInRange(int start, int end) {
 	  return start + rand28Bit() % (end - start);
 }
 
-int calcPlot(const char* f_input, const char* f_output, int lsize, int algo, int steps, int averaging) {
-	ifstream input(f_input);
+int calcPlot(const char* fInput, const char* fOutput, int lSize, int algo, int steps, int averaging) {
+	ifstream input(fInput);
     if (input) {
-		ofstream output(f_output);
+		ofstream output(fOutput);
 		if (output) {
 			srand((unsigned)time(NULL));
 
@@ -55,26 +55,26 @@ int calcPlot(const char* f_input, const char* f_output, int lsize, int algo, int
 			}
 			//std::cout << "input file: " << f_input << std::endl;
 			//std::cout << "output file: " << f_output << std::endl;
-            std::vector <double> beta_points(n), magn_points;
+            std::vector <double> betaPoints(n), magnPoints;
 			for (unsigned i = 0; i < n; i++)
-				input >> beta_points[i];
+				input >> betaPoints[i];
 
-			parameters p;
-			squareLattice *l = new squareLattice(lsize);
-            monteCarlo model(p);
-			model.plotMagnBeta(l, beta_points, magn_points, steps, averaging, algo);
+			Parameters p;
+			SquareLattice *l = new SquareLattice(lSize);
+            MonteCarlo model(p);
+			model.plotMagnBeta(l, betaPoints, magnPoints, steps, averaging, algo);
 
 			delete l;
 			for (unsigned i = 0; i < n; i++)
-				output << magn_points[i] << std::endl;
+				output << magnPoints[i] << std::endl;
 		}
 		else {
-			std::cout << "Cannot open " << f_output << " as output" << std::endl;
+			std::cout << "Cannot open " << fOutput << " as output" << std::endl;
 			return 2;
 		}
 	}
 	else {
-		std::cout << "Cannot open " << f_input << " as input" << std::endl;
+		std::cout << "Cannot open " << fInput << " as input" << std::endl;
 		return 1;
 	}
 	return 0;

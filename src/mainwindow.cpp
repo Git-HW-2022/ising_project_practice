@@ -10,15 +10,15 @@
 #include <QThread>
 
 //constructor - initialization
-MainWindow::MainWindow(int l_size, QWidget *parent) :
+MainWindow::MainWindow(int lSize, QWidget *parent) :
 	QMainWindow(parent), alg(0), //call constructor of base class
-	p(0.5), l_size(l_size), l(new squareLattice(l_size)), ui(new Ui::MainWindow) //initialize "ui" field by pointer to newly created object
+	p(0.5), lSize(lSize), l(new SquareLattice(lSize)), ui(new Ui::MainWindow) //initialize "ui" field by pointer to newly created object
 {
     l->fillRandom();
     ui->setupUi(this);
 
     //create dynamic widget
-    paintWidget = new paintWidget(this);
+    paintWidget = new PaintWidget(this);
     //setup size, position and other attributes using layout
     //try to put similar widget on form and see build-drawing-Desktop_Qt_5_3_MinGW_32bit-Debug/ui_mainwindow.h
     QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -42,7 +42,7 @@ MainWindow::MainWindow(int l_size, QWidget *parent) :
 
     // Thread creation
     QThread* thread = new QThread;
-    worker* worker = new worker(&alg, &Thread_status, p, l);
+    Worker* worker = new Worker(&alg, &Thread_status, p, l);
 
     // We transfer the ownership rights of the workerclass to the QThread class
     worker->moveToThread(thread);
@@ -135,8 +135,8 @@ void MainWindow::changeAlgoLabel()
 }
 
 //called when form and widget is resized, repaints widget
-void MainWindow::canvasResized(QSize old_size, QSize new_size)
+void MainWindow::canvasResized(QSize oldSize, QSize newSize)
 {
-	if (old_size != new_size)
+	if (oldSize != newSize)
 		drawPicture();
 }

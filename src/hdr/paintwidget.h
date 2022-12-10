@@ -3,17 +3,17 @@
 
 #include <QWidget>
 
-class paintWidget : public QWidget
+class PaintWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit paintWidget(QWidget *parent = 0);
-    ~paintWidget();
+    explicit PaintWidget(QWidget *parent = 0);
+    ~PaintWidget();
     QImage *image; //internal cache picture in memory
 
 //outgoing events that this object emits
 signals:
-    void canvasResized(QSize old_size, QSize new_size);
+    void canvasResized(QSize oldSize, QSize newSize);
 
 //handlers that process incoming events
 public slots:

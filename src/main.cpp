@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
 	if (argc > 1 && strcmp(argv[1], "-help") == 0)
 		return help();
 
-	int lsize = 64; //default lattice size
+	int lSize = 64; //default lattice size
 	//for making plot
 	if (argc > 1 && strcmp(argv[1], "-plot") == 0) {
 		if (argc < 4) {
@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
 			//std::cout << lsize << " " << steps << " " << averaging << std::endl;
 		}
 		//checking plot parameters
-		if (lsize <= 0) {
+		if (lSize <= 0) {
 			std::cout << "-lsize: incorrect lattice size (must be > 0)" << std::endl;
 			return 0;
 		}
@@ -80,25 +80,25 @@ int main(int argc, char *argv[]) {
 			return 0;
 		}
 		//std::cout << "plot making" << std::endl;
-		return calcPlot(argv[2], argv[3], lsize, algo - 1, steps, averaging);
+		return calcPlot(argv[2], argv[3], lSize, algo - 1, steps, averaging);
 	}
 
 	//for opening window with simulation
 	if (argc > 1) {
 		if (strstr(argv[1], "-lsize=") == argv[1])
-			lsize = atoi(argv[1] + strlen("-lsize="));
+			lSize = atoi(argv[1] + strlen("-lsize="));
 		else {
 			std::cout << "unrecognized option: " << argv[1] << std::endl;
 			return usage();
 		}
-		if (lsize <= 0) {
+		if (lSize <= 0) {
 			std::cout << "-lsize: incorrect lattice size (must be > 0)" << std::endl;
 			return 0;
 		}
-		std::cout << "simulation with " << lsize << "x" << lsize << " lattice" << std::endl;
+		std::cout << "simulation with " << lSize << "x" << lSize << " lattice" << std::endl;
 	}
 	QApplication a(argc, argv);
-	MainWindow w(lsize);
+	MainWindow w(lSize);
 	w.show();
 	return a.exec();
 }
