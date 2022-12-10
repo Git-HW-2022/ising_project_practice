@@ -1,4 +1,4 @@
-#include "paintwidget.h"
+#include "hdr/paintwidget.h"
 #include <QPainter>
 #include <QMouseEvent>
 

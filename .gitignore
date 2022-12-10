@@ -1,4 +1,9 @@
 *.user
+<<<<<<< HEAD
 *.txt
 *.bat
 src/.idea/*
+=======
+*.bat
+*.exe
+>>>>>>> master

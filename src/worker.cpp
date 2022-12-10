@@ -1,4 +1,4 @@
-#include "worker.h"
+#include "hdr/worker.h"
 #include <QThread>
 #include <QDebug>
 #include <QPainter>

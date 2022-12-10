@@ -1,15 +1,13 @@
 #ifndef ISING_MODEL_H
 #define ISING_MODEL_H
 
+#include "hdr/lattice.h"
 #include <iostream>
-#include "lattice.h"
 #include <vector>
 
 #ifdef DEBUG
 #include "debug.h" //debug functions
 #endif
-
-using namespace std;
 
 class Parameters {
 protected:
@@ -32,7 +30,7 @@ public:
 	void heatBathSimulate(Lattice *l, int steps = 1) const;
 	void clustersSimulate(Lattice *l, int steps = 1) const;
     int defSpin(int plus_prob) const;
-	void plotMagnBeta(Lattice *l, const vector <double> &beta_points, vector <double> &magn_points, const int steps, const int averaging, const int algo);
+	void plotMagnBeta(Lattice *l, const std::vector <double> &beta_points, std::vector <double> &magn_points, const int steps, const int averaging, const int algo);
     void test(Lattice *l);
 };
 

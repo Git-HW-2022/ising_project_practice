@@ -1,5 +1,5 @@
-#include "ising_model.h"
-#include "funcs.h"
+#include "hdr/ising_model.h"
+#include "hdr/funcs.h"
 #include <assert.h>
 #include <math.h>
 #include <fstream>
@@ -37,10 +37,10 @@ void MonteCarlo::clustersSimulate(Lattice *l, int steps) const {
     unsigned int nbrs = l->getNbrs(), nbr_arr[nbrs];
     int prob = RAND_MAX * (1 - exp(-2 * beta)); // The magic number
     for (int j = 0; j < steps; ++j) {
-        spin = bigRand() % N; 						// Arbitrary choice of spin
+        spin = randInRange(0, N); 						// Arbitrary choice of spin
         std::vector <int> Cluster {spin}, Pocket {spin}; // Put the spin in the cluster and in the pocket
         while (!Pocket.empty()) {
-            spin = Pocket[big_rand() % Pocket.size()]; 	// An arbitrary choice from the pocket
+            spin = Pocket[randInRange(0, Pocket.size())]; 	// An arbitrary choice from the pocket
             l->getNbrs(spin, nbr_arr); 				// Get neighbors spin
             for (unsigned int i = 0; i < nbrs; ++i) { 			// Check all the neighbors:
                 if (L[spin] == L[nbr_arr[i]] && 			// If the neighbor's spin is the same
@@ -66,7 +66,7 @@ int MonteCarlo::defSpin(int plus_prob) const {
     return -1;
 }
 
-void MonteCarlo::plotMagnBeta(Lattice *l, const vector <double> &beta_points, vector <double> &magn_points, const int steps, const int averaging, const int algo) {
+void MonteCarlo::plotMagnBeta(Lattice *l, const std::vector <double> &beta_points, std::vector <double> &magn_points, const int steps, const int averaging, const int algo) {
     try {
         if (averaging <= 0)
 			throw Exception("averaging must be positive, you entered: ", averaging);
@@ -111,14 +111,14 @@ void MonteCarlo::test(Lattice *l) {//test here
 	//clusters_simulate(l);
     std::cout << "step " << steps << ":" << std::endl;
     l->show();
-    std::cout << "avg. magn = " << l->avg_magn() << std::endl;
+    std::cout << "avg. magn = " << l->avgMagn() << std::endl;
 }
 
 int simulationExample() {
     srand((unsigned)time(NULL));
-    parameters p(0.55); //beta
-    square_lattice *l = new square_lattice(10);
-    Monte_Carlo model(p);
+    Parameters p(0.55); //beta
+    SquareLattice *l = new SquareLattice(10);
+    MonteCarlo model(p);
     model.test(l);
     delete l;
     return 0;

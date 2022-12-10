@@ -1,16 +1,16 @@
-#include "funcs.h"
-#include "lattice.h"
-#include "ising_model.h"
+#include "hdr/funcs.h"
+#include "hdr/lattice.h"
+#include "hdr/ising_model.h"
 #include <algorithm>
 #include <fstream>
 #include <ctime>
 #include <iostream>
 
-bool vContains(const vector <int> &v, int el) { //checks if vector contains element
+bool vContains(const std::vector <int> &v, int el) { //checks if vector contains element
     return find(v.begin(), v.end(), el) != v.end();
 }
 
-bool vDel(vector <int> &v, int el) { //deletes element from vector. returns false if not found
+bool vDel(std::vector <int> &v, int el) { //deletes element from vector. returns false if not found
     auto del = find(v.begin(), v.end(), el);
     if (del != v.end()) {
         v.erase(del);
@@ -19,7 +19,7 @@ bool vDel(vector <int> &v, int el) { //deletes element from vector. returns fals
     return false;
 }
 
-void vLinfill(vector <double> &v, const double start, const double end, const int points) {
+void vLinFill(std::vector <double> &v, const double start, const double end, const int points) {
 	for (int i = 0; i < points; i++)
 		v.push_back(start + i * (end - start) / (points - 1));
 }
@@ -30,14 +30,14 @@ int bigRand() { //30-bit random number
     return r;
 }
 
-int big30Bit() { //30-bit random number
+int rand30Bit() { //30-bit random number
     int r = rand() & 0x7FFF;
     r = (r << 15) | (rand() & 0x7FFF);
     return r;
 }
 
-int randInRange(int x, int y) {
-    return x + bigRand % (y - x + 1);
+int randInRange(int start, int end) {
+    return start + (bigRand() % (end - start + 1));
 }
 
 int calcPlot(const char* f_input, const char* f_output, int lsize, int algo, int steps, int averaging) {
@@ -55,13 +55,13 @@ int calcPlot(const char* f_input, const char* f_output, int lsize, int algo, int
 			}
 			//std::cout << "input file: " << f_input << std::endl;
 			//std::cout << "output file: " << f_output << std::endl;
-			vector <double> beta_points(n), magn_points;
+            std::vector <double> beta_points(n), magn_points;
 			for (unsigned i = 0; i < n; i++)
 				input >> beta_points[i];
 
 			parameters p;
 			square_lattice *l = new square_lattice(lsize);
-			Monte_Carlo model(p);
+            MonteCarlo model(p);
 			model.plot_magn_beta(l, beta_points, magn_points, steps, averaging, algo);
 
 			delete l;
