@@ -10,7 +10,7 @@ lattice::lattice(unsigned int N, unsigned int nbrs) : N(N), L(new int[N]), nbrs(
 			throw Exception("Invalid lattice size: ", N);
 	}
 	catch (Exception &exc) {
-        std::cout << exc.what() << exc.getData() << std::endl;
+        std::cout << exc.what() << exc.Get_data() << std::endl;
 	}
 }
 
@@ -34,21 +34,21 @@ unsigned int lattice::getnbrs() const {
 	return nbrs;
 }
 
-void lattice::fillRandom() {
+void lattice::fill_random() {
 	for (unsigned int i = 0; i < N; i++)
 		L[i] = 2 * (rand() % 2) - 1;
 }
 
-int lattice::sumNbr(unsigned int index) const { //returns sum of neighbour spins
+int lattice::sum_nbr(unsigned int index) const { //returns sum of neighbour spins
 	unsigned int *nbr_arr = new unsigned int[nbrs];
-	getNbrs(index, nbr_arr);
+	get_nbrs(index, nbr_arr);
 	int sum = L[nbr_arr[0]];
 	for (unsigned int i = 1; i < nbrs; sum += L[nbr_arr[i]], i++);
 	delete [] nbr_arr;
 	return sum;
 }
 
-double lattice::avgMagn() const {//returns average magnetization
+double lattice::avg_magn() const {//returns average magnetization
 	int sum = 0;
 	for (unsigned int i = 0; i < N; i++)
 		sum += L[i];
@@ -62,13 +62,13 @@ lattice::~lattice() {
 	delete [] L;
 }
 
-rect_lattice::rectLattice(unsigned int A, unsigned int B) : lattice(A * B, 4), A(A), B(B) {
+rect_lattice::rect_lattice(unsigned int A, unsigned int B) : lattice(A * B, 4), A(A), B(B) {
 #ifdef DEBUG
-    std::cout << "rectLattice(" << A << "*" << B << ")" << std::endl;
+    std::cout << "rect_lattice(" << A << "*" << B << ")" << std::endl;
 #endif
 }
 
-void rectLattice::getNbrs(unsigned int index, unsigned int *arr) const { //returns array of nbr indexes [U, D, L, R]
+void rect_lattice::get_nbrs(unsigned int index, unsigned int *arr) const { //returns array of nbr indexes [U, D, L, R]
 	unsigned int a = index / B, b = index % B;
 	arr[0] = B * ((a + A - 1) % A) + b;
 	arr[1] = B * ((a + 1) % A) + b;
@@ -76,7 +76,7 @@ void rectLattice::getNbrs(unsigned int index, unsigned int *arr) const { //retur
 	arr[3] = B * a + (b + 1) % B;
 }
 
-void rectLattice::show() const {
+void rect_lattice::show() const {
 	for (unsigned int i = 0; i < A; i++) {
 		for (unsigned int j = 0; j < B; j++)
             std::cout << (L[B * i + j] > 0 ? "+" : ".");
@@ -84,36 +84,36 @@ void rectLattice::show() const {
 	}
 }
 
-rectLattice::~rectLattice() {
+rect_lattice::~rect_lattice() {
 #ifdef DEBUG
-    std::cout << "~rectLattice()" << std::endl;
+    std::cout << "~rect_lattice()" << std::endl;
 #endif
 }
 
-squareLattice::squareLattice(unsigned int A) : rectLattice(A, A) {
+square_lattice::square_lattice(unsigned int A) : rect_lattice(A, A) {
 }
 
-linearLattice::linearLattice(unsigned int N) : lattice(N, 2) {
+linear_lattice::linear_lattice(unsigned int N) : lattice(N, 2) {
 }
 
-void linearLattice::getNbrs(unsigned int index, unsigned int *arr) const { //returns array of nbr indexes [L, R]
+void linear_lattice::get_nbrs(unsigned int index, unsigned int *arr) const { //returns array of nbr indexes [L, R]
 	arr[0] = (index - 1) % N;
 	arr[1] = (index + 1) % N;
 }
 
-void linearLattice::show() const {
+void linear_lattice::show() const {
 	for (unsigned int i = 0; i < N; i++)
         std::cout << (L[i] > 0 ? "+" : ".") << " ";
     std::cout << std::endl;
 }
 
-tridimensionalLattice::tridimensionalLattice(unsigned int A, unsigned int B, unsigned int C) : lattice(A * B * C, 6), A(A), B(B), C(C) {
+tridimensional_lattice::tridimensional_lattice(unsigned int A, unsigned int B, unsigned int C) : lattice(A * B * C, 6), A(A), B(B), C(C) {
 #ifdef DEBUG
-    std::cout << "tridimensionalLattice(" << A << "*" << B << "*" << C << ")" << std::endl;
+    std::cout << "tridimensional_lattice(" << A << "*" << B << "*" << C << ")" << std::endl;
 #endif
 }
 
-void tridimensionalLattice::get_nbrs(unsigned int index, unsigned int *arr) const { //returns array of nbr indexes [U, D, L, R, UF, DF] (UF - up floor)
+void tridimensional_lattice::get_nbrs(unsigned int index, unsigned int *arr) const { //returns array of nbr indexes [U, D, L, R, UF, DF] (UF - up floor)
 	int AB = A * B;
 	int floor = index / (AB), new_index = index % (AB);
 	int a = new_index / B, b = new_index % B;
@@ -126,7 +126,7 @@ void tridimensionalLattice::get_nbrs(unsigned int index, unsigned int *arr) cons
 	arr[5] = (index - AB + N) % N;
 }
 
-void tridimensionalLattice::show() const {
+void tridimensional_lattice::show() const {
 	unsigned int spin = 0, i, j, k;
 	for (i = 0; i < C; i++) {
         std::cout << i << " floor:" << std::endl;
@@ -141,11 +141,11 @@ void tridimensionalLattice::show() const {
 	}
 }
 
-tridimensionalLattice::~tridimensionalLattice() {
+tridimensional_lattice::~tridimensional_lattice() {
 #ifdef DEBUG
-    std::cout << "~tridimensionalLattice()" << std::endl;
+    std::cout << "~tridimensional_lattice()" << std::endl;
 #endif
 }
 
-cubicLattice::cubicLattice(unsigned int A) : tridimensionalLattice(A, A, A) {
+cubic_lattice::cubic_lattice(unsigned int A) : tridimensional_lattice(A, A, A) {
 }

@@ -8,17 +8,17 @@
 #include <string.h>
 
 int usage() {
-	std::cout << "Usage: isingModel [options]\n"
-				 "or     isingModel -plot input output [plot options]" << std::endl;
+	std::cout << "Usage: ising_model [options]\n"
+				 "or     ising_model -plot input output [plot options]" << std::endl;
 	std::cout << "For more information use -help option" << std::endl;
 	return 0;
 }
 
 int help() {
-	std::cout << "For simulation with GUI: isingModel [options]" << std::endl;
+	std::cout << "For simulation with GUI: ising_model [options]" << std::endl;
 	std::cout << "options:\n-lsize=<number> [default: 64]\n"
 				 "\tSets lattice size\n" << std::endl;
-	std::cout << "For making average magnetization from beta plot (in console): isingModel -plot input output [plot options]\n"
+	std::cout << "For making average magnetization from beta plot (in console): ising_model -plot input output [plot options]\n"
 				 "in input file there should be number of points n at first (n > 0), and then n beta values!" << std::endl;
 	std::cout << "plot options:\n"
 				 "-lsize=<number> [default: 64]\n"
@@ -80,7 +80,7 @@ int main(int argc, char *argv[]) {
 			return 0;
 		}
 		//std::cout << "plot making" << std::endl;
-		return calcPlot(argv[2], argv[3], lsize, algo - 1, steps, averaging);
+		return calc_plot(argv[2], argv[3], lsize, algo - 1, steps, averaging);
 	}
 
 	//for opening window with simulation

@@ -15,7 +15,7 @@ public:
         return m_error.c_str();
     }
 
-    int getData() {
+    int Get_data() {
         return data;
     }
 };
@@ -36,52 +36,52 @@ public:
     unsigned int getN() const;
     int* getL();
     unsigned int getnbrs() const;
-    void fillRandom();
-    int sumNbr(unsigned int index) const;
-    double avgMagn() const;
+    void fill_random();
+    int sum_nbr(unsigned int index) const;
+    double avg_magn() const;
 
-    virtual void getNbrs(unsigned int index, unsigned int *arr) const = 0; //returns array of nbr indexes
+    virtual void get_nbrs(unsigned int index, unsigned int *arr) const = 0; //returns array of nbr indexes
     virtual void show() const = 0; //the pure virtual function, prints lattice
 };
 
-class rectLattice : public lattice {
+class rect_lattice : public lattice {
 	const unsigned int A, B; //lattice sizes: A strings, B columns
 
 public:
-    rectLattice(unsigned int A, unsigned int B);
-    virtual ~rectLattice();
+    rect_lattice(unsigned int A, unsigned int B);
+    virtual ~rect_lattice();
 
-	void getNbrs(unsigned int index, unsigned int *arr) const;
+	void get_nbrs(unsigned int index, unsigned int *arr) const;
     void show() const;
 };
 
-class squareLattice : public rectLattice {
+class square_lattice : public rect_lattice {
 public:
-    squareLattice(unsigned int A);
+    square_lattice(unsigned int A);
 };
 
-class linearLattice : public lattice {
+class linear_lattice : public lattice {
 public:
-    linearLattice(unsigned int N);
+    linear_lattice(unsigned int N);
 
-    void getNbrs(unsigned int index, unsigned int *arr) const;
+    void get_nbrs(unsigned int index, unsigned int *arr) const;
 	void show() const;
 };
 
-class tridimensionalLattice : public lattice {
+class tridimensional_lattice : public lattice {
 	const unsigned int A, B, C; //lattice sizes
 
 public:
-	tridimensionalLattice(unsigned int A, unsigned int B, unsigned int C);
-	virtual ~tridimensionalLattice();
+	tridimensional_lattice(unsigned int A, unsigned int B, unsigned int C);
+	virtual ~tridimensional_lattice();
 
-	void getNbrs(unsigned int index, unsigned int *arr) const;
+	void get_nbrs(unsigned int index, unsigned int *arr) const;
 	void show() const;
 };
 
-class cubicLattice : public tridimensionalLattice {
+class cubic_lattice : public tridimensional_lattice {
 public:
-	cubicLattice(unsigned int A);
+	cubic_lattice(unsigned int A);
 };
 
 #endif // LATTICE_H
