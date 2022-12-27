@@ -1,7 +1,7 @@
 #include "hdr/lattice.h"
 #include <iostream>
 
-lattice::lattice(unsigned int N, unsigned int nbrs) : N(N), L(new int[N]), nbrs(nbrs) {
+Lattice::Lattice(unsigned int N, unsigned int nbrs) : N(N), L(new int[N]), nbrs(nbrs) {
 #ifdef DEBUG
     std::cout << "lattice(" << N << ")" << std::endl;
 #endif
@@ -14,7 +14,7 @@ lattice::lattice(unsigned int N, unsigned int nbrs) : N(N), L(new int[N]), nbrs(
 	}
 }
 
-lattice::lattice(const lattice &old) : N(old.N), L(new int[N]), nbrs(old.nbrs) {
+Lattice::Lattice(const Lattice &old) : N(old.N), L(new int[N]), nbrs(old.nbrs) {
 #ifdef DEBUG
     std::cout << "lattice(" << N << ") copy constructor" << std::endl;
 #endif
@@ -22,24 +22,24 @@ lattice::lattice(const lattice &old) : N(old.N), L(new int[N]), nbrs(old.nbrs) {
 		L[i] = old.L[i];
 }
 
-unsigned int lattice::getN() const {
+unsigned int Lattice::getN() const {
 	return N;
 }
 
-int* lattice::getL() {
+int* Lattice::getL() {
 	return L;
 }
 
-unsigned int lattice::getnbrs() const {
+unsigned int Lattice::getNbrs() const {
 	return nbrs;
 }
 
-void lattice::fillRandom() {
+void Lattice::fillRandom() {
 	for (unsigned int i = 0; i < N; i++)
 		L[i] = 2 * (rand() % 2) - 1;
 }
 
-int lattice::sumNbr(unsigned int index) const { //returns sum of neighbour spins
+int Lattice::sumNbr(unsigned int index) const { //returns sum of neighbour spins
 	unsigned int *nbr_arr = new unsigned int[nbrs];
 	getNbrs(index, nbr_arr);
 	int sum = L[nbr_arr[0]];
@@ -48,27 +48,27 @@ int lattice::sumNbr(unsigned int index) const { //returns sum of neighbour spins
 	return sum;
 }
 
-double lattice::avgMagn() const {//returns average magnetization
+double Lattice::avgMagn() const {//returns average magnetization
 	int sum = 0;
 	for (unsigned int i = 0; i < N; i++)
 		sum += L[i];
 	return (double) sum / N;
 }
 
-lattice::~lattice() {
+Lattice::~Lattice() {
 #ifdef DEBUG
     std::cout << "~lattice()" << std::endl;
 #endif
 	delete [] L;
 }
 
-rect_lattice::rectLattice(unsigned int A, unsigned int B) : lattice(A * B, 4), A(A), B(B) {
+RectLattice::RectLattice(unsigned int A, unsigned int B) : Lattice(A * B, 4), A(A), B(B) {
 #ifdef DEBUG
     std::cout << "rectLattice(" << A << "*" << B << ")" << std::endl;
 #endif
 }
 
-void rectLattice::getNbrs(unsigned int index, unsigned int *arr) const { //returns array of nbr indexes [U, D, L, R]
+void RectLattice::getNbrs(unsigned int index, unsigned int *arr) const { //returns array of nbr indexes [U, D, L, R]
 	unsigned int a = index / B, b = index % B;
 	arr[0] = B * ((a + A - 1) % A) + b;
 	arr[1] = B * ((a + 1) % A) + b;
@@ -76,7 +76,7 @@ void rectLattice::getNbrs(unsigned int index, unsigned int *arr) const { //retur
 	arr[3] = B * a + (b + 1) % B;
 }
 
-void rectLattice::show() const {
+void RectLattice::show() const {
 	for (unsigned int i = 0; i < A; i++) {
 		for (unsigned int j = 0; j < B; j++)
             std::cout << (L[B * i + j] > 0 ? "+" : ".");
@@ -84,36 +84,36 @@ void rectLattice::show() const {
 	}
 }
 
-rectLattice::~rectLattice() {
+RectLattice::~RectLattice() {
 #ifdef DEBUG
     std::cout << "~rectLattice()" << std::endl;
 #endif
 }
 
-squareLattice::squareLattice(unsigned int A) : rectLattice(A, A) {
+SquareLattice::SquareLattice(unsigned int A) : RectLattice(A, A) {
 }
 
-linearLattice::linearLattice(unsigned int N) : lattice(N, 2) {
+LinearLattice::LinearLattice(unsigned int N) : Lattice(N, 2) {
 }
 
-void linearLattice::getNbrs(unsigned int index, unsigned int *arr) const { //returns array of nbr indexes [L, R]
+void LinearLattice::getNbrs(unsigned int index, unsigned int *arr) const { //returns array of nbr indexes [L, R]
 	arr[0] = (index - 1) % N;
 	arr[1] = (index + 1) % N;
 }
 
-void linearLattice::show() const {
+void LinearLattice::show() const {
 	for (unsigned int i = 0; i < N; i++)
         std::cout << (L[i] > 0 ? "+" : ".") << " ";
     std::cout << std::endl;
 }
 
-tridimensionalLattice::tridimensionalLattice(unsigned int A, unsigned int B, unsigned int C) : lattice(A * B * C, 6), A(A), B(B), C(C) {
+TridimensionalLattice::TridimensionalLattice(unsigned int A, unsigned int B, unsigned int C) : Lattice(A * B * C, 6), A(A), B(B), C(C) {
 #ifdef DEBUG
     std::cout << "tridimensionalLattice(" << A << "*" << B << "*" << C << ")" << std::endl;
 #endif
 }
 
-void tridimensionalLattice::get_nbrs(unsigned int index, unsigned int *arr) const { //returns array of nbr indexes [U, D, L, R, UF, DF] (UF - up floor)
+void TridimensionalLattice::getNbrs(unsigned int index, unsigned int *arr) const { //returns array of nbr indexes [U, D, L, R, UF, DF] (UF - up floor)
 	int AB = A * B;
 	int floor = index / (AB), new_index = index % (AB);
 	int a = new_index / B, b = new_index % B;
@@ -126,7 +126,7 @@ void tridimensionalLattice::get_nbrs(unsigned int index, unsigned int *arr) cons
 	arr[5] = (index - AB + N) % N;
 }
 
-void tridimensionalLattice::show() const {
+void TridimensionalLattice::show() const {
 	unsigned int spin = 0, i, j, k;
 	for (i = 0; i < C; i++) {
         std::cout << i << " floor:" << std::endl;
@@ -141,11 +141,11 @@ void tridimensionalLattice::show() const {
 	}
 }
 
-tridimensionalLattice::~tridimensionalLattice() {
+TridimensionalLattice::~TridimensionalLattice() {
 #ifdef DEBUG
     std::cout << "~tridimensionalLattice()" << std::endl;
 #endif
 }
 
-cubicLattice::cubicLattice(unsigned int A) : tridimensionalLattice(A, A, A) {
+CubicLattice::CubicLattice(unsigned int A) : TridimensionalLattice(A, A, A) {
 }

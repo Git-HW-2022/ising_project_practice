@@ -15,7 +15,7 @@ class Worker : public QObject
     Q_OBJECT
 
 public:
-    explicit Worker(int* alg, bool *Status, parameters p, lattice *lptr = nullptr, QObject *parent = 0);
+    explicit Worker(int* alg, bool *Status, Parameters p, Lattice *lptr = nullptr, QObject *parent = 0);
     ~Worker();
 
     int* alg;
@@ -23,22 +23,22 @@ public:
     bool Stop;
     bool Run;
     int step;
-    lattice *l;
+    Lattice *l;
     MonteCarlo *model;
 
 signals:
     void finished();
 
-	void SendStep(int);
+    void sendStep(int);
 
 public slots:
     void process();
 
-    void RecieveDeleteThread();
-	void RecieveChangeAlgo();
-    void RecievePause();
-    void RecieveRun();
-    void RecieveNewBeta(double new_beta);
+    void recieveDeleteThread();
+    void recieveChangeAlgo();
+    void recievePause();
+    void recieveRun();
+    void recieveNewBeta(double new_beta);
 };
 
 #endif // WORKER_H
