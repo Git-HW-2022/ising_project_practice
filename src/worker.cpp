@@ -3,7 +3,7 @@
 #include <QDebug>
 #include <QPainter>
 
-Worker::Worker(int* alg, bool *Status, parameters p, lattice *lptr, QObject *parent) :
+Worker::Worker(int* alg, bool *Status, Parameters p, Lattice *lptr, QObject *parent) :
     QObject(parent), alg(alg), Thread_status(Status), l(lptr), model(new MonteCarlo(p))
 
 {
@@ -28,11 +28,11 @@ void Worker::process()
         if(Run && !Stop)
         {
 			if (*alg == 0)
-				model->heat_bath_simulate(l);
+                model->heatBathSimulate(l);
 			if (*alg == 1)
-				model->clusters_simulate(l);
+                model->clustersSimulate(l);
             step++;
-			emit(SendStep(step));
+            emit(sendStep(step));
             QThread::msleep(50);
         }
         else
@@ -41,33 +41,33 @@ void Worker::process()
     emit finished();
 }
 
-void Worker::RecieveDeleteThread()
+void Worker::recieveDeleteThread()
 {
     Stop = true;
 	//qDebug() << "RecieveDeleteThread = " << Stop;
     emit finished();
 }
 
-void Worker::RecieveChangeAlgo()
+void Worker::recieveChangeAlgo()
 {
 	*alg = (*alg + 1) % 2;
 	//qDebug() << "Algo changed to " << *alg;
 }
 
-void Worker::RecieveRun()
+void Worker::recieveRun()
 {
     Run = true;
     //qDebug() << "Recieve Run";
 }
 
-void Worker::RecievePause()
+void Worker::recievePause()
 {
     Run = false;
     //qDebug() << "Recieve Pause";
 }
 
-void Worker::RecieveNewBeta(double new_beta)
+void Worker::recieveNewBeta(double new_beta)
 {
     //qDebug() << "Recieved " << new_beta << " beta";
-    model->set_beta(new_beta);
+    model->setBeta(new_beta);
 }

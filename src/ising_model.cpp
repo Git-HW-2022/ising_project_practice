@@ -4,44 +4,44 @@
 #include <math.h>
 #include <fstream>
 
-parameters::parameters(double beta, double H, double J, double mu) :
+Parameters::Parameters(double beta, double H, double J, double mu) :
     beta(beta), H(H), J(J), mu(mu) {
 }
 
-void parameters::set_beta(const double new_beta) {
+void Parameters::setBeta(const double new_beta) {
     beta = new_beta;
 }
 
-parameters::~parameters() {
+Parameters::~Parameters() {
 }
 
-MonteCarlo::MonteCarlo(parameters &p) : parameters(p) {
+MonteCarlo::MonteCarlo(Parameters &p) : Parameters(p) {
 }
 
-void MonteCarlo::heat_bath_simulate(lattice *l, int steps) const {
-    int rand_spin, prob, nbrs = l->getnbrs(), *L = l->getL(), N = l->getN();
+void MonteCarlo::heatBathSimulate(Lattice *l, int steps) const {
+    int rand_spin, prob, nbrs = l->getNbrs(), *L = l->getL(), N = l->getN();
     int prob_arr[1 + 2 * nbrs]; // Array of all possible probabilities
     for (int i = -nbrs; i <= nbrs; ++i) // Filling the array
         prob_arr[i + nbrs] = RAND_MAX / (1 + exp(-2 * beta * i - mu * H));
     for (int i = 0; i < steps; ++i) {
         for (int j = 0; j < N; ++j) {
-            rand_spin = rand_30bit() % N; // Choose an arbitrary spin
-            prob = prob_arr[l->sum_nbr(rand_spin) + nbrs]; // Take the previously calculated probability from the array
-            L[rand_spin] = def_spin(prob); // Assign +1 or -1
+            rand_spin = randInRange(0, N); // Choose an arbitrary spin
+            prob = prob_arr[l->sumNbr(rand_spin) + nbrs]; // Take the previously calculated probability from the array
+            L[rand_spin] = defSpin(prob); // Assign +1 or -1
         }
     }
 }
 
-void MonteCarlo::clusters_simulate(lattice *l, int steps) const {
+void MonteCarlo::clustersSimulate(Lattice *l, int steps) const {
     int spin, *L = l->getL(), N = l->getN();
-    unsigned int nbrs = l->getnbrs(), nbr_arr[nbrs];
+    unsigned int nbrs = l->getNbrs(), nbr_arr[nbrs];
     int prob = RAND_MAX * (1 - exp(-2 * beta)); // The magic number
     for (int j = 0; j < steps; ++j) {
-        spin = rand_30bit() % N; 						// Arbitrary choice of spin
+        spin = randInRange(0, N); 						// Arbitrary choice of spin
         std::vector <int> Cluster {spin}, Pocket {spin}; // Put the spin in the cluster and in the pocket
         while (!Pocket.empty()) {
-            spin = Pocket[rand_30bit() % Pocket.size()]; 	// An arbitrary choice from the pocket
-            l->get_nbrs(spin, nbr_arr); 				// Get neighbors spin
+            spin = Pocket[randInRange(0, Pocket.size())]; 	// An arbitrary choice from the pocket
+            l->getNbrs(spin, nbr_arr); 				// Get neighbors spin
             for (unsigned int i = 0; i < nbrs; ++i) { 			// Check all the neighbors:
                 if (L[spin] == L[nbr_arr[i]] && 			// If the neighbor's spin is the same
                     !vcontains(Cluster, nbr_arr[i]) && 		// and it's not in the cluster yet,
@@ -59,14 +59,14 @@ void MonteCarlo::clusters_simulate(lattice *l, int steps) const {
     }
 }
 
-int MonteCarlo::def_spin(int plus_prob) const {
+int MonteCarlo::defSpin(int plus_prob) const {
     int rand_prob = rand();
     if (rand_prob < plus_prob)
         return 1;
     return -1;
 }
 
-void MonteCarlo::plot_magn_beta(lattice *l, const std::vector <double> &beta_points, std::vector <double> &magn_points, const int steps, const int averaging, const int algo) {
+void MonteCarlo::plotMagnBeta(Lattice *l, const std::vector <double> &beta_points, std::vector <double> &magn_points, const int steps, const int averaging, const int algo) {
     try {
         if (averaging <= 0)
 			throw Exception("averaging must be positive, you entered: ", averaging);
@@ -82,12 +82,12 @@ void MonteCarlo::plot_magn_beta(lattice *l, const std::vector <double> &beta_poi
 			double avg_magn = 0;
 			double mes;
 			for(int j = 0; j < averaging; j++) {
-				l->fill_random();
+				l->fillRandom();
 				if (algo == 0)
-					heat_bath_simulate(l, steps);
+					heatBathSimulate(l, steps);
 				if (algo == 1)
-					clusters_simulate(l, steps);
-				mes = l->avg_magn();
+					clustersSimulate(l, steps);
+				mes = l->avgMagn();
 				avg_magn += abs(mes);
 			}
 			avg_magn /= averaging;
@@ -96,28 +96,28 @@ void MonteCarlo::plot_magn_beta(lattice *l, const std::vector <double> &beta_poi
 		}
 	}
 	catch (Exception &exc) {
-        std::cout << exc.what() << exc.Get_data() << std::endl;
+        std::cout << exc.what() << exc.getData() << std::endl;
     }
 }
 
-void MonteCarlo::test(lattice *l) {//test here
-    l->fill_random();
+void MonteCarlo::test(Lattice *l) {//test here
+    l->fillRandom();
     std::cout << "step 0:" << std::endl;
     l->show();
-    std::cout << "avg. magn = " << l->avg_magn() << std::endl;
+    std::cout << "avg. magn = " << l->avgMagn() << std::endl;
 
     int steps = 300;
-	heat_bath_simulate(l, steps);
-	//clusters_simulate(l);
+	heatBathSimulate(l, steps);
+	//clustersSimulate(l);
     std::cout << "step " << steps << ":" << std::endl;
     l->show();
-    std::cout << "avg. magn = " << l->avg_magn() << std::endl;
+    std::cout << "avg. magn = " << l->avgMagn() << std::endl;
 }
 
-int simulation_example() {
+int simulationExample() {
     srand((unsigned)time(NULL));
-    parameters p(0.55); //beta
-    square_lattice *l = new square_lattice(10);
+    Parameters p(0.55); //beta
+    SquareLattice *l = new SquareLattice(10);
     MonteCarlo model(p);
     model.test(l);
     delete l;

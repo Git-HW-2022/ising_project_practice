@@ -1,5 +1,4 @@
 #include "hdr/funcs.h"
-#include "hdr/lattice.h"
 #include "hdr/ising_model.h"
 #include <algorithm>
 #include <fstream>
@@ -24,13 +23,23 @@ void vlinfill(std::vector <double> &v, const double start, const double end, con
 		v.push_back(start + i * (end - start) / (points - 1));
 }
 
-int rand_30bit() { //30-bit random number
+int rand30Bit() { //30-bit random number
     int r = rand() & 0x7FFF;
     r = (r << 15) | (rand() & 0x7FFF);
     return r;
 }
 
-int calc_plot(const char* f_input, const char* f_output, int lsize, int algo, int steps, int averaging) {
+int rand27Bit() {
+	int r =  rand() & 0xFFF;
+	r = (r << 15) | (rand() & 0x7FFF);
+        return r;	
+}
+
+int randInRange(int a, int b) {
+    return a + rand27Bit() % (b - a);
+}
+
+int calcPlot(const char* f_input, const char* f_output, int lsize, int algo, int steps, int averaging) {
     std::ifstream input(f_input);
     if (input) {
         std::ofstream output(f_output);
@@ -49,10 +58,10 @@ int calc_plot(const char* f_input, const char* f_output, int lsize, int algo, in
 			for (unsigned i = 0; i < n; i++)
 				input >> beta_points[i];
 
-			parameters p;
-			square_lattice *l = new square_lattice(lsize);
+            Parameters p;
+            SquareLattice *l = new SquareLattice(lsize);
             MonteCarlo model(p);
-			model.plot_magn_beta(l, beta_points, magn_points, steps, averaging, algo);
+            model.plotMagnBeta(l, beta_points, magn_points, steps, averaging, algo);
 
 			delete l;
 			for (unsigned i = 0; i < n; i++)
