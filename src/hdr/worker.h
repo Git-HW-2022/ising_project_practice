@@ -10,21 +10,21 @@ namespace Ui {
 class MainWindow;
 }
 
-class worker : public QObject
+class Worker : public QObject
     {
   Q_OBJECT
 
      public:
-      explicit worker(int* alg, bool *Status, parameters p, lattice *lptr = nullptr, QObject *parent = 0);
-  ~worker();
+      explicit Worker(int* alg, bool *status, Parameters p, Lattice *lptr = nullptr, QObject *parent = 0);
+  ~Worker();
 
   int* alg;
-  bool *Thread_status;
-  bool Stop;
-  bool Run;
+  bool *threadStatus;
+  bool stop;
+  bool run;
   int step;
-  lattice *l;
-  monteCarlo *model;
+  Lattice *l;
+  MonteCarlo *model;
 
   signals:
       void finished();

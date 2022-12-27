@@ -37,13 +37,13 @@ int rand25Bit() { //25-bit random number
 }
 
 int randInRange(int start, int end) {
-  return start + rand28Bit() % (end - start);
+  return start + rand25Bit() % (end - start);
 }
 
 int calcPlot(const char* fInput, const char* fOutput, int lSize, int algo, int steps, int averaging) {
-  ifstream input(fInput);
+  std::ifstream input(fInput);
   if (input) {
-    ofstream output(fOutput);
+    std::ofstream output(fOutput);
     if (output) {
       srand((unsigned)time(NULL));
       unsigned n;
@@ -90,7 +90,7 @@ int rand_30bit() { //30-bit random number
     return r;
 }
 
-int calc_plot(const char* f_input, const char* f_output, int lsize, int algo, int steps, int averaging) {
+/*int calc_plot(const char* f_input, const char* f_output, int lsize, int algo, int steps, int averaging) {
     std::ifstream input(f_input);
     if (input) {
         std::ofstream output(f_output);
@@ -129,3 +129,4 @@ int calc_plot(const char* f_input, const char* f_output, int lsize, int algo, in
 	}
 	return 0;
 }
+*/

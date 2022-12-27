@@ -18,14 +18,14 @@ class MainWindow : public QMainWindow
   Q_OBJECT
 
      public:
-      explicit MainWindow(int l_size = 64, QWidget *parent = 0);
+      explicit MainWindow(int lSize = 64, QWidget *parent = 0);
   ~MainWindow();
 
   int alg; //simulation algorithm: 1 for heat_bath, -1 for clasters
-  bool Thread_status; //true when thread is working, false when terminated
-  parameters p; //parameters of the model
-  int l_size; //square_lattice size - number of rows or columns
-  lattice *l; //lattice type of square_lattice, used in simulation
+  bool threadStatus; //true when thread is working, false when terminated
+  Parameters p; //parameters of the model
+  int lSize; //square_lattice size - number of rows or columns
+  Lattice *l; //lattice type of square_lattice, used in simulation
 
   public slots:
       void changeAlgoLabel();
@@ -39,7 +39,7 @@ class MainWindow : public QMainWindow
 
      private:
       Ui::MainWindow *ui;
-      paintWidget *paintWidget; //new dynamically created widget
+      PaintWidget *paintWidget; //new dynamically created widget
       QLabel *lb1;
       QLabel *lb2;
       QLabel *lb3;

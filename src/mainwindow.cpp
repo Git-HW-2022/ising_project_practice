@@ -42,7 +42,7 @@ p(0.5), lSize(lSize), l(new SquareLattice(lSize)), ui(new Ui::MainWindow) //init
 
   // Thread creation
   QThread* thread = new QThread;
-  Worker* worker = new Worker(&alg, &Thread_status, p, l);
+  Worker* worker = new Worker(&alg, &threadStatus, p, l);
 
   // We transfer the ownership rights of the workerclass to the QThread class
   worker->moveToThread(thread);
@@ -70,7 +70,7 @@ p(0.5), lSize(lSize), l(new SquareLattice(lSize)), ui(new Ui::MainWindow) //init
   // Delete the stream after performing the calculations
   connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
 
-  Thread_status = true;
+  threadStatus = true;
   thread->start();
 }
 
@@ -85,7 +85,7 @@ MainWindow::~MainWindow()
   delete ui;
   delete l;
   int i;
-  for (i = 0; i < 50 && Thread_status; i++)
+  for (i = 0; i < 50 && threadStatus; i++)
     QThread::msleep(100);
   /*
   if (i == 50)

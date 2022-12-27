@@ -41,7 +41,7 @@ void Worker::process()
   emit finished();
 }
 
-void worker::receiveDeleteThread()
+void Worker::receiveDeleteThread()
 {
   stop = true;
   //qDebug() << "receiveDeleteThread = " << Stop;
