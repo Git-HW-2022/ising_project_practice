@@ -11,34 +11,34 @@ class MainWindow;
 }
 
 class Worker : public QObject
-{
-    Q_OBJECT
+    {
+  Q_OBJECT
 
-public:
-    explicit Worker(int* alg, bool *Status, Parameters p, Lattice *lptr = nullptr, QObject *parent = 0);
-    ~Worker();
+     public:
+      explicit Worker(int* alg, bool *status, Parameters p, Lattice *lptr = nullptr, QObject *parent = 0);
+  ~Worker();
 
-    int* alg;
-    bool *Thread_status;
-    bool Stop;
-    bool Run;
-    int step;
-    Lattice *l;
-    MonteCarlo *model;
+  int* alg;
+  bool *threadStatus;
+  bool stop;
+  bool run;
+  int step;
+  Lattice *l;
+  MonteCarlo *model;
 
-signals:
-    void finished();
+  signals:
+      void finished();
 
-    void sendStep(int);
+      void sendStep(int);
 
-public slots:
-    void process();
+      public slots:
+      void process();
 
-    void recieveDeleteThread();
-    void recieveChangeAlgo();
-    void recievePause();
-    void recieveRun();
-    void recieveNewBeta(double new_beta);
-};
+      void receiveDeleteThread();
+      void receiveChangeAlgo();
+      void receivePause();
+      void receiveRun();
+      void receiveNewBeta(double new_beta);
+    };
 
 #endif // WORKER_H

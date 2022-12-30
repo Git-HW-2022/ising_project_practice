@@ -4,24 +4,23 @@
 #include <QWidget>
 
 class PaintWidget : public QWidget
-{
-    Q_OBJECT
-public:
-    explicit PaintWidget(QWidget *parent = 0);
-    ~PaintWidget();
-    QImage *image; //internal cache picture in memory
+    {
+  Q_OBJECT
+     public:
+      explicit PaintWidget(QWidget *parent = 0);
+  ~PaintWidget();
+  QImage *image; //internal cache picture in memory
+  //outgoing events that this object emits
+  signals:
+      void canvasResized(QSize oldSize, QSize newSize);
 
-//outgoing events that this object emits
-signals:
-	void paintResized(QSize old_size, QSize new_size);
+      //handlers that process incoming events
+      public slots:
 
-//handlers that process incoming events
-public slots:
-
-//overridden methods of base classes - processing events
-protected:
-    virtual void resizeEvent(QResizeEvent *event);
-    virtual void paintEvent(QPaintEvent *);
-};
+      //overridden methods of base classes - processing events
+     protected:
+      virtual void resizeEvent(QResizeEvent *event);
+      virtual void paintEvent(QPaintEvent *);
+    };
 
 #endif // PAINTWIDGET_H

@@ -3,71 +3,70 @@
 #include <QDebug>
 #include <QPainter>
 
-Worker::Worker(int* alg, bool *Status, Parameters p, Lattice *lptr, QObject *parent) :
-    QObject(parent), alg(alg), Thread_status(Status), l(lptr), model(new MonteCarlo(p))
-
+Worker::Worker(int* alg, bool *status, Parameters p, Lattice *lptr, QObject *parent) :
+QObject(parent), alg(alg), threadStatus(status), l(lptr), model(new MonteCarlo(p))
 {
-    Stop = false;
-    Run = false;
-    step = 0;
+  stop = false;
+  run = false;
+  step = 0;
 }
 
 Worker::~Worker()
 {
-    //qDebug() << "destruction Thread";
-	delete model;
-    *Thread_status = false;
+  //qDebug() << "destruction Thread";
+  delete model;
+  *threadStatus = false;
 }
 
 void Worker::process()
 {
-    Stop = false;
-    Run = false;
-    while (!Stop)
+  stop = false;
+  run = false;
+  while (!stop)
+  {
+    if(run && !stop)
     {
-        if(Run && !Stop)
-        {
-			if (*alg == 0)
-                model->heatBathSimulate(l);
-			if (*alg == 1)
-                model->clustersSimulate(l);
-            step++;
-            emit(sendStep(step));
-            QThread::msleep(50);
-        }
-        else
-            QThread::msleep(100);
+      if (*alg == 0)
+        model->heatBathSimulate(l);
+      if (*alg == 1)
+        model->clustersSimulate(l);
+      step++;
+      emit(sendStep(step));
+      QThread::msleep(50);
     }
-    emit finished();
+    else
+      QThread::msleep(100);
+  }
+  emit finished();
 }
 
-void Worker::recieveDeleteThread()
+void Worker::receiveDeleteThread()
 {
-    Stop = true;
-	//qDebug() << "RecieveDeleteThread = " << Stop;
-    emit finished();
+  stop = true;
+  //qDebug() << "receiveDeleteThread = " << Stop;
+  emit finished();
 }
 
-void Worker::recieveChangeAlgo()
+void Worker::receiveChangeAlgo()
 {
-	*alg = (*alg + 1) % 2;
-	//qDebug() << "Algo changed to " << *alg;
+  *alg = (*alg + 1) % 2;
+  //qDebug() << "Algo changed to " << *alg;
 }
 
-void Worker::recieveRun()
+void Worker::receiveRun()
 {
-    Run = true;
-    //qDebug() << "Recieve Run";
+  run = true;
+  //qDebug() << "Recieve Run";
 }
 
-void Worker::recievePause()
+void Worker::receivePause()
 {
-    Run = false;
-    //qDebug() << "Recieve Pause";
+  run = false;
+  //qDebug() << "Recieve Pause";
 }
 
-void Worker::recieveNewBeta(double new_beta)
+void Worker::receiveNewBeta(double newBeta)
 {
-    //qDebug() << "Recieved " << new_beta << " beta";
-    model->setBeta(new_beta);
+  //qDebug() << "Recieved " << new_beta << " beta";
+  model->setBeta(newBeta);
 }
