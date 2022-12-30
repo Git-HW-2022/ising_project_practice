@@ -47,4 +47,5 @@ class MainWindow : public QMainWindow
       void drawPicture();
     };
 
+
 #endif // MAINWINDOW_H

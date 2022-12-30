@@ -32,7 +32,6 @@ void MonteCarlo::heatBathSimulate(Lattice *l, int steps) const {
   }
 }
 
-
 void MonteCarlo::clustersSimulate(Lattice *l, int steps) const {
   int spin, *L = l->getL(), N = l->getN();
   unsigned int nbrs = l->getNbrs(), nbrArr[nbrs];
@@ -92,7 +91,7 @@ void MonteCarlo::plotMagnBeta(Lattice *l, const std::vector <double> &betaPoints
       }
       avgMagn /= averaging;
       magnPoints.push_back(avgMagn);
-      std::cout << "beta = " << beta << "\tavg_magn = " << magnPoints.back() << std::endl;
+      std::cout << "beta = " << beta << "\tavg_magn = " << magnPoints.back() << std::endl
     }
   }
   catch (Exception &exc) {

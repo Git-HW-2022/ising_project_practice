@@ -149,3 +149,4 @@ TridimensionalLattice::~TridimensionalLattice() {
 
 CubicLattice::CubicLattice(unsigned int A) : TridimensionalLattice(A, A, A) {
 }
+

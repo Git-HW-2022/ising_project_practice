@@ -10,10 +10,6 @@
 #include "debug.h" //debug functions
 #endif
 
-#ifdef DEBUG
-#include "debug.h" //debug functions
-#endif
-
 class Parameters {
  protected:
   double beta; //beta = 1/kT

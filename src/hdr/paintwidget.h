@@ -10,7 +10,6 @@ class PaintWidget : public QWidget
       explicit PaintWidget(QWidget *parent = 0);
   ~PaintWidget();
   QImage *image; //internal cache picture in memory
-
   //outgoing events that this object emits
   signals:
       void canvasResized(QSize oldSize, QSize newSize);
