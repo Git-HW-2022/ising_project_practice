@@ -57,11 +57,11 @@ p(0.5), lSize(lSize), l(new SquareLattice(lSize)), ui(new Ui::MainWindow) //init
   // Signals that are sent to the stream
   // Signal processing of buttons and input fields
   connect(this, SIGNAL(sendDeleteThread()), worker, SLOT(receiveDeleteThread()), Qt::DirectConnection);
-  connect(ui->RunButton, SIGNAL(clicked()), worker, SLOT(receiveRun()), Qt::DirectConnection);
-  connect(ui->StopButton, SIGNAL(clicked()), worker, SLOT(receivePause()), Qt::DirectConnection);
-  connect(ui->ChangeAlgoButton, SIGNAL(clicked()), worker, SLOT(receiveChangeAlgo()), Qt::DirectConnection);
-  connect(ui->BetaSpinBox, SIGNAL(valueChanged(double)), worker, SLOT(receiveNewBeta(double)), Qt::DirectConnection);
-  connect(ui->ChangeAlgoButton, SIGNAL(clicked()), this, SLOT(changeAlgoLabel()));
+  connect(ui->runButton, SIGNAL(clicked()), worker, SLOT(receiveRun()), Qt::DirectConnection);
+  connect(ui->stopButton, SIGNAL(clicked()), worker, SLOT(receivePause()), Qt::DirectConnection);
+  connect(ui->changeAlgoButton, SIGNAL(clicked()), worker, SLOT(receiveChangeAlgo()), Qt::DirectConnection);
+  connect(ui->betaSpinBox, SIGNAL(valueChanged(double)), worker, SLOT(receiveNewBeta(double)), Qt::DirectConnection);
+  connect(ui->changeAlgoButton, SIGNAL(clicked()), this, SLOT(changeAlgoLabel()));
 
   // Upon completion, we exit the stream, and delete the worker-class
   connect(worker, SIGNAL(destroyed(QObject*)), thread, SLOT(quit()));  // THE PROPER WAY
@@ -77,7 +77,7 @@ p(0.5), lSize(lSize), l(new SquareLattice(lSize)), ui(new Ui::MainWindow) //init
 //destructor - free resources
 MainWindow::~MainWindow()
 {
-  sendDeleteThread();
+  emit sendDeleteThread();
   //qDebug() << "destruction MainWindow";
   delete lb1;
   delete lb2;

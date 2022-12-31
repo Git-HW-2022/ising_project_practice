@@ -52,10 +52,11 @@ void MonteCarlo::clustersSimulate(Lattice *l, int steps) const {
       }
       vDel(Pocket, spin); 						// Remove from pocket
     }
-    for (auto i = Cluster.begin(); i != Cluster.end(); ++i)
+    for (auto i = Cluster.begin(); i != Cluster.end(); ++i) {
       L[*i] = - L[*i]; 						// Flip the whole cluster
       if (Cluster.size() > 5 * l->getN() / 6) // Cuts unnecessary calculations
         break;
+    }
   }
 }
 
@@ -91,7 +92,7 @@ void MonteCarlo::plotMagnBeta(Lattice *l, const std::vector <double> &betaPoints
       }
       avgMagn /= averaging;
       magnPoints.push_back(avgMagn);
-      std::cout << "beta = " << beta << "\tavg_magn = " << magnPoints.back() << std::endl
+      std::cout << "beta = " << beta << "\tavg_magn = " << magnPoints.back() << std::endl;
     }
   }
   catch (Exception &exc) {

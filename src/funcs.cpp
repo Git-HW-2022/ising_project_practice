@@ -29,6 +29,12 @@ int rand30Bit() { //30-bit random number
   return r;
 }
 
+int rand27Bit() {
+    int r =  rand() & 0xFFF;
+    r = (r << 15) | (rand() & 0x7FFF);
+        return r;
+}
+
 int rand25Bit() { //25-bit random number
   int r = rand() & 0x1FFF;
   r = (r << 12) | (rand() & 0x1FFF);
@@ -82,16 +88,3 @@ void vlinfill(std::vector <double> &v, const double start, const double end, con
 	for (int i = 0; i < points; i++)
 		v.push_back(start + i * (end - start) / (points - 1));
 }
-
-int rand30Bit() { //30-bit random number
-    int r = rand() & 0x7FFF;
-    r = (r << 15) | (rand() & 0x7FFF);
-    return r;
-}
-
-int rand27Bit() {
-	int r =  rand() & 0xFFF;
-	r = (r << 15) | (rand() & 0x7FFF);
-        return r;	
-}
-
